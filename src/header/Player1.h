@@ -1,50 +1,50 @@
-#include "../header/Universal.h"
-#include "../header/Player.h"
+#include "./Universal.h"
+#include "Player.h"
+#include "Player2.h"
+#ifndef PLAYER1_H
+#define PLAYER1_H
 
-Player::Player() {}
-Player::Player(sf::RenderWindow *renderWindow, std::string image)
+class Player1 : public Player
 {
-    this->spritesheet = image;
-    this->window = renderWindow;
-    if (!this->textureIdle.loadFromFile(spritesheet, sf::IntRect(10, 20, 55, 110)))
+public:
+    Player1(sf::RenderWindow *renderWindow, std::string image, HealthBar *health) : Player(renderWindow, image)
     {
-        std::cout << "Error";
-    }
-    if (!this->textureJump.loadFromFile(spritesheet, sf::IntRect(725, 35, 55, 65)))
-    {
-        std::cout << "Error";
-    }
-    if (!this->textureCrouch.loadFromFile(spritesheet, sf::IntRect(84, 732, 52, 72)))
-    {
-        std::cout << "Error";
-    }
-    if (!this->texturePunch.loadFromFile(spritesheet, sf::IntRect(915, 180, 115, 100)))
-    {
-        std::cout << "Error";
-    }
+        if (!this->textureIdle.loadFromFile(spritesheet, sf::IntRect(18, 36, 39, 92)))
+        {
+            std::cout << "Error";
+        }
+        if (!this->textureJump.loadFromFile(spritesheet, sf::IntRect(729, 36, 36, 57)))
+        {
+            std::cout << "Error";
+        }
+        if (!this->textureCrouch.loadFromFile(spritesheet, sf::IntRect(89, 736, 44, 63)))
+        {
+            std::cout << "Error";
+        }
+        if (!this->texturePunch.loadFromFile(spritesheet, sf::IntRect(603, 1402, 65, 95)))
+        {
+            std::cout << "Error";
+        }
 
-    this->sprite.setTexture(this->texturePunch);
-    this->sprite.setTexture(this->textureIdle);
-    this->width = this->sprite.getGlobalBounds().width;
-    this->height = this->sprite.getGlobalBounds().height;
-    this->xpos = 20;
-    this->ypos = SCREEN_HEIGHT - this->height - 100;
-    this->sprite.setPosition(sf::Vector2f(xpos, ypos));
-    this->sprite.setScale(2, 2);
-}
-void Player::play(float dt)
-{
-    sf::Event e;
-
-    while (window->pollEvent(e))
+        this->sprite.setTexture(this->textureIdle);
+        this->width = this->sprite.getGlobalBounds().width;
+        this->height = this->sprite.getGlobalBounds().height;
+        this->xpos = 20;
+        this->ypos = SCREEN_HEIGHT - this->height * 2;
+        this->sprite.setPosition(sf::Vector2f(xpos, ypos));
+        this->sprite.setScale(2, 2);
+        this->health = health;
+    }
+    void play(sf::Event e, float dt) override
     {
+
         if (e.type == sf::Event::Closed)
             window->close();
         if (e.type == sf::Event::KeyPressed)
         {
             if (e.key.scancode == sf::Keyboard::Scan::D)
             {
-                this->dx = 20;
+                this->dx = 5;
                 this->xpos = this->xpos + this->dx * dt;
                 this->sprite.setPosition(sf::Vector2f(xpos, ypos));
             }
@@ -60,7 +60,7 @@ void Player::play(float dt)
             }
             if (e.key.scancode == sf::Keyboard::Scan::A)
             {
-                this->dx = -20;
+                this->dx = -5;
                 this->xpos = this->xpos + this->dx * dt;
                 this->sprite.setPosition(sf::Vector2f(xpos, ypos));
             }
@@ -86,6 +86,7 @@ void Player::play(float dt)
             {
                 this->sprite.setTexture(textureIdle);
                 this->sprite.setPosition(xpos, ypos);
+                this->health->damage();
             }
             if (e.key.scancode == sf::Keyboard::Scan::A)
             {
@@ -111,8 +112,13 @@ void Player::play(float dt)
             }
         }
     }
-}
-void Player::draw()
-{
-    window->draw(this->sprite);
-}
+    void draw()
+    {
+        Player::draw();
+    }
+    bool checkCollision(const Player &other) const
+    {
+        return this->sprite.getGlobalBounds().intersects(other.sprite.getGlobalBounds());
+    }
+};
+#endif

@@ -1,30 +1,15 @@
 #include "./src/header/Universal.h"
-#include "./src/cpp/Player.cpp"
-#include "./src/cpp/Background.cpp"
+#include "./src/header/Game.h"
 
 int main()
 {
 
-    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML works!");
-    Player p1(&window, "./src/assests/images/Ken.png");
-    Background b0(&window, "./src/assests/images/background.png");
-    sf::Clock dt;
+    sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Street Fighter II ");
+    Game StreetFighter(&window);
     while (window.isOpen())
     {
-        sf::Event event;
-        p1.play(dt.restart().asMilliseconds());
-        // while (window.pollEvent(event))
-        // {
-        //     p1.play(&event);
-        //     if (event.type == sf::Event::Closed)
-        //         window.close();
-        // }
-        window.clear();
-        b0.draw();
-        p1.draw();
-        window.display();
+        StreetFighter.Play();
     }
-
     return 0;
 }
 

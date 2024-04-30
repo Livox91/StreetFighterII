@@ -1,18 +1,18 @@
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include "./Universal.h"
+#include "./HealthBar.h"
+
 #ifndef PLAYER_H
 #define PLAYER_H
 
 class Player
 {
-private:
+public:
     sf::RenderWindow *window;
-    sf::Event *e;
+    HealthBar *health;
     sf::Texture textureIdle;
     sf::Texture textureJump;
     sf::Texture textureCrouch;
     sf::Texture texturePunch;
-    sf::Texture textureKick;
     sf::Sprite sprite;
     std::string spritesheet;
     float width;
@@ -22,10 +22,13 @@ private:
     float ypos;
 
 public:
-    Player();
-    Player(sf::RenderWindow *renderWindow, std::string image);
-    void play(float dt);
-    void draw();
+    Player(sf::RenderWindow *renderWindow, std::string image) : window(renderWindow), spritesheet(image){};
+    virtual void play(sf::Event e, float dt) = 0;
+    void draw()
+    {
+        this->window->draw(this->sprite);
+        this->health->draw();
+    }
 };
 
 #endif
