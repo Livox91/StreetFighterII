@@ -7,7 +7,7 @@
 class Player1 : public Player
 {
 public:
-    Player1(sf::RenderWindow *renderWindow, std::string image, HealthBar *health) : Player(renderWindow, image)
+    Player1(std::string image, HealthBar *health) : Player(image)
     {
         if (!this->textureIdle.loadFromFile(spritesheet, sf::IntRect(18, 36, 39, 92)))
         {
@@ -38,8 +38,6 @@ public:
     void play(sf::Event e, float dt) override
     {
 
-        if (e.type == sf::Event::Closed)
-            window->close();
         if (e.type == sf::Event::KeyPressed)
         {
             if (e.key.scancode == sf::Keyboard::Scan::D)
@@ -86,7 +84,6 @@ public:
             {
                 this->sprite.setTexture(textureIdle);
                 this->sprite.setPosition(xpos, ypos);
-                this->health->damage();
             }
             if (e.key.scancode == sf::Keyboard::Scan::A)
             {
@@ -112,9 +109,16 @@ public:
             }
         }
     }
-    void draw()
+    void reset()
     {
-        Player::draw();
+        sf::sleep(sf::milliseconds(50));
+        this->xpos = 20;
+        this->sprite.setPosition(xpos, ypos);
+        this->health->reset();
+    }
+    void draw(const std::shared_ptr<sf::RenderWindow> &window)
+    {
+        Player::draw(window);
     }
     bool checkCollision(const Player &other) const
     {

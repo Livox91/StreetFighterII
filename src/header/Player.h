@@ -7,7 +7,6 @@
 class Player
 {
 public:
-    sf::RenderWindow *window;
     HealthBar *health;
     sf::Texture textureIdle;
     sf::Texture textureJump;
@@ -22,12 +21,12 @@ public:
     float ypos;
 
 public:
-    Player(sf::RenderWindow *renderWindow, std::string image) : window(renderWindow), spritesheet(image){};
+    Player(std::string image) : spritesheet(image){};
     virtual void play(sf::Event e, float dt) = 0;
-    void draw()
+    void draw(const std::shared_ptr<sf::RenderWindow> &window)
     {
-        this->window->draw(this->sprite);
-        this->health->draw();
+        window->draw(this->sprite);
+        this->health->draw(window);
     }
 };
 

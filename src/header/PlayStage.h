@@ -7,7 +7,6 @@ class Background
 private:
     std::string spritesheet1;
     std::string spritesheet2;
-    sf::RenderWindow *window;
     sf::Texture TextureBg0;
     sf::Texture TextureBg1;
     sf::Texture TextureBg2;
@@ -17,11 +16,11 @@ private:
 
 public:
     Background() {}
-    Background(sf::RenderWindow *renderWindow, std::string spritesheet1, std::string spritesheet2)
+    Background(std::string spritesheet1, std::string spritesheet2)
     {
         this->spritesheet1 = spritesheet1;
         this->spritesheet2 = spritesheet2;
-        this->window = renderWindow;
+
         if (!(this->TextureBg0.loadFromFile(spritesheet1, sf::IntRect(50, 0, 417, 225)) &&
               this->TextureBg1.loadFromFile(spritesheet1, sf::IntRect(0, 240, 329, 185)) &&
               this->TextureBg2.loadFromFile(spritesheet2, sf::IntRect(30, 11, 195, 13))))
@@ -37,11 +36,11 @@ public:
         background1.setPosition(300, 200);
         HealthBar.setPosition(SCREEN_WIDTH / 2 - 200, 10);
     }
-    void draw()
+    void draw(const std::shared_ptr<sf::RenderWindow> &window)
     {
-        this->window->draw(background0);
-        this->window->draw(background1);
-        this->window->draw(HealthBar);
+        window->draw(background0);
+        window->draw(background1);
+        window->draw(HealthBar);
     }
 };
 #endif
