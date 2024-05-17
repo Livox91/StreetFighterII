@@ -30,15 +30,23 @@ public:
     }
     void damage()
     {
-        this->width -= 5;
+
         this->health -= 5;
         if (this->width <= -183 && this->id == 2)
         {
-            this->width = -183;
+            this->width = 0;
         }
         if (this->width <= 0 && this->id == 1)
         {
             this->width = 0;
+        }
+        if (this->id == 1)
+        {
+            this->width += 5;
+        }
+        if (this->id == 2)
+        {
+            this->width -= 5;
         }
         this->rectangle.setSize(sf::Vector2f(this->width, this->height));
     }

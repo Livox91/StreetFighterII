@@ -18,7 +18,7 @@ private:
 
 public:
     Game() : background(backgroundSprite, healthBarSprite),
-             h1(SCREEN_WIDTH / 2 - 198, 15, 183, 17, sf::Color(100, 250, 10), 1),
+             h1(SCREEN_WIDTH / 2 - 198, 15, 0, 17, sf::Color(100, 250, 10), 1),
              h2(SCREEN_WIDTH / 2 + 187, 15, 0, 17, sf::Color(100, 250, 10), 2),
              p1(player1Sprite, &h1), p2(player2Sprite, &h2) {}
     void Play(sf::Event e)
