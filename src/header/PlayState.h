@@ -12,6 +12,14 @@ private:
     void Update(sf::Time deltaClock, sf::Event e)
     {
         StreetFighter.Play(e);
+        if (StreetFighter.getP1points() == 3)
+        {
+            SetPaused(true);
+        }
+        if (StreetFighter.getP2points() == 3)
+        {
+            SetPaused(true);
+        }
     }
     void Draw(const std::shared_ptr<sf::RenderWindow> &window)
     {

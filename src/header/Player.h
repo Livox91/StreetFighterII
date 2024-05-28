@@ -1,5 +1,6 @@
 #include "./Universal.h"
 #include "./HealthBar.h"
+#include "./Points.h"
 
 #ifndef PLAYER_H
 #define PLAYER_H
@@ -8,6 +9,7 @@ class Player
 {
 public:
     HealthBar *health;
+    Points *Score;
     sf::Texture textureIdle;
     sf::Texture textureJump;
     sf::Texture textureCrouch;
@@ -27,6 +29,7 @@ public:
     {
         window->draw(this->sprite);
         this->health->draw(window);
+        this->Score->draw(window);
     }
 };
 

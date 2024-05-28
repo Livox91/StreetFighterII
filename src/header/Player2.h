@@ -7,7 +7,7 @@
 class Player2 : public Player
 {
 public:
-    Player2(std::string image, HealthBar *health) : Player(image)
+    Player2(std::string image, HealthBar *health, Points *score) : Player(image)
     {
         if (!this->textureIdle.loadFromFile(spritesheet, sf::IntRect(511, 9, 65, 105)))
         {
@@ -35,6 +35,7 @@ public:
         this->sprite.setPosition(sf::Vector2f(xpos, ypos));
         this->sprite.setScale(2, 2);
         this->health = health;
+        this->Score = score;
     }
     void play(sf::Event e, float dt) override
     {

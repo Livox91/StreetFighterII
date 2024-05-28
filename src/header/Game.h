@@ -3,6 +3,7 @@
 #include "./Player2.h"
 #include "./HealthBar.h"
 #include "./PlayStage.h"
+#include "./Points.h"
 
 #ifndef GAME_H
 #define GAME_H
@@ -13,6 +14,8 @@ private:
     Background background;
     HealthBar h1;
     HealthBar h2;
+    Points s1;
+    Points s2;
     Player1 p1;
     Player2 p2;
 
@@ -20,7 +23,9 @@ public:
     Game() : background(backgroundSprite, healthBarSprite),
              h1(SCREEN_WIDTH / 2 - 198, 15, 0, 17, sf::Color(100, 250, 10), 1),
              h2(SCREEN_WIDTH / 2 + 187, 15, 0, 17, sf::Color(100, 250, 10), 2),
-             p1(player1Sprite, &h1), p2(player2Sprite, &h2) {}
+             s1(50, 50, 1, healthBarSprite),
+             s2(SCREEN_WIDTH - 50, 50, 2, healthBarSprite),
+             p1(player1Sprite, &h1, &s1), p2(player2Sprite, &h2, &s2) {}
     void Play(sf::Event e)
     {
         sf::Clock de;
@@ -31,7 +36,10 @@ public:
             {
                 p1.health->damage();
                 if (p1.health->getHealth() < 2)
+                {
+                    p2.Score->increment();
                     reset();
+                }
             }
         }
         if (p2.checkCollision(p1))
@@ -40,7 +48,10 @@ public:
             {
                 p2.health->damage();
                 if (p2.health->getHealth() < 2)
+                {
+                    p1.Score->increment();
                     reset();
+                }
             }
         }
         p1.play(e, de.restart().asMicroseconds());
@@ -53,6 +64,14 @@ public:
         this->h2.draw(window);
         this->p1.draw(window);
         this->p2.draw(window);
+    }
+    int getP1points()
+    {
+        return p1.Score->getPoints();
+    }
+    int getP2points()
+    {
+        return p2.Score->getPoints();
     }
     void reset()
     {
